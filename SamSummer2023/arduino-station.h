@@ -41,9 +41,9 @@ inline double get_value1(char* buf, int buf_length, int& i, char M) {
     int j = 0;
     // do we need 43-44? it's repeated inside the while loop
     i++;
-    if ((buf[i] == 'H') || (buf[i] == 'T')) i++;
+    if ((buf[i] == 'H') || (buf[i] == 'T') || (buf[i] == 'A')) i++;
     while (buf[i] != M) {
-        if ((buf[i] == 'H') || (buf[i] == 'T')) i++;
+        if ((buf[i] == 'H') || (buf[i] == 'T') || (buf[i] == 'A')) i++;
         buf_tmp[j] = buf[i];
         j++;
         i++;
@@ -80,15 +80,17 @@ inline void set_setpoint(float value)
 inline void strip_stringAd(char* read_buf, int buf_length, std::vector<double>& v) {
     int i = 0;
     if (read_buf[0] == 'T') {
-        double v_0 = get_value1(read_buf, buf_length, i, 'F'),
-               v_1 = get_value1(read_buf, buf_length, i, 'P'),
-               v_2 = get_value1(read_buf, buf_length, i, 'A'),
-               v_3 = get_value1(read_buf, buf_length, i, 'S'),
-               v_4 = get_value1(read_buf, buf_length, i, 'R'),
-               v_5 = get_value1(read_buf, buf_length, i, 'A'),
-               v_6 = get_value1(read_buf, buf_length, i, 'V'),
-               v_7 = get_value1(read_buf, buf_length, i, 'C'),
+        double v_0 = get_value1(read_buf, buf_length, i, 'D'),
+               v_1 = get_value1(read_buf, buf_length, i, 'T'),
+               v_2 = get_value1(read_buf, buf_length, i, 'F'),
+               v_3 = get_value1(read_buf, buf_length, i, 'F'),
+               v_4 = get_value1(read_buf, buf_length, i, 'A'),
+               v_5 = get_value1(read_buf, buf_length, i, 'S'),
+               v_6 = get_value1(read_buf, buf_length, i, 'R'),
+               v_7 = get_value1(read_buf, buf_length, i, 'A'),
                v_8 = get_value1(read_buf, buf_length, i, 'N');
+
+               // T D TA FA F A S RH AT 
 
         v.push_back(v_0);
         v.push_back(v_1);

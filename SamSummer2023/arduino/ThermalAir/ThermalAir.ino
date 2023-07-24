@@ -134,7 +134,7 @@ void setup() {
 
 
 void loop() { //-----------------Main loop------------------//
-
+ 
   unsigned long ms_curr = millis();
 
   if (ms_curr - ms_display >= mms) { // "soft interrupt" every mms milliseconds
@@ -355,15 +355,24 @@ String read_output()
 
 
 
-////----------------- OLD OUTPUT ---------------////
-// needs to be changed for new thermal air outputs and get rid of pwm
-// also needs to be changed in midas frontend/analyser so it knows the format of the data it receives
+////----------------- OUTPUT ---------------////
 void transmit_data (void) {
     if (human_readable){
         Serial.print("Temp: ");
+        Serial.print(temperature);
+        Serial.print("\t");
+
+        Serial.print("DUT Temp: ");
         Serial.print(DUT_temp);
         Serial.print("\t");
-        Serial.print("Flow: ");
+        Serial.print("Air Temp: ");
+        Serial.print(air_temp);
+        Serial.print("\t");
+        Serial.print("Flow In: ");
+        Serial.print(air_flow);
+        Serial.print("\t");
+
+        Serial.print("Flow Out: ");
         Serial.print(flow);
         Serial.print("\t");
         //Serial.print("Volume: ");
@@ -393,23 +402,29 @@ void transmit_data (void) {
     }
 
     else{
+
+        // T D TA FA F A S RH AT 
+
         Serial.print("T");
         Serial.print(temperature);
+
+        Serial.print("D");
+        Serial.print(DUT_temp);
+
+        Serial.print("TA");
+        Serial.print(air_temp);
+
+        Serial.print("FA");
+        Serial.print(air_flow);
+
         Serial.print("F");
         Serial.print(flow);
-
-        //Serial.print("V");
-        //Serial.print(vol);
-        //Serial.print("\t");
-        // Serial.print("P");
-        // Serial.print(PWMValue);
 
         Serial.print("A");    
         Serial.print(flow_moving_avg);
 
         Serial.print("S");
         Serial.print(air_setpoint);
-
 
         Serial.print("RH");
         Serial.print(rel_humidity);

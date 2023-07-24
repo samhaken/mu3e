@@ -132,8 +132,10 @@ EQUIPMENT equipment[] = {
 
 // bank naming convention: "TS**", TS for Test Stand and 2 extra characters, 4 characters total
         const char *temperature = "TS_T";
+        const char *dut_temp = "TSTD";
+        const char *air_temp = "TSTA";
+        const char *air_flow = "TSFA";
         const char *flow = "TS_F";
-        const char *PWM = "TS_P";
         const char *avgFlow = "TS_A";
         const char *setPoint = "TS_S";
         const char *relativeHumidity = "TSRH";
@@ -263,62 +265,46 @@ INT read_periodic_event(char *pevent, INT off) {
         read_data1(serial_port, data_stream);
         if (data_stream.size() == data_stream_size) {
             midas::odb exp("/Equipment/ArduinoTestStation/Variables");
-
-            // TODO: still haven't found a way to monitor
-            // current variable without leaving constant voltage mode.
-            // maybe add delay? otherwise have to change current in tty
-
-            // send_command_ard(exp["_C_"], "c");
-            // send_command_ard(exp["TS_S"], "s");
-
-            // not sure what this does
-            /*
-            if (!exp["_L_"]) {
-                send_command_ard(0.0, "f");
-            }
-            */
             
 
             bk_create(pevent, temperature, TID_FLOAT, (void **)&pdata);
             *pdata++ = (float)data_stream[0];
             bk_close(pevent, pdata);
 
-            bk_create(pevent, flow, TID_FLOAT, (void **)&pdata);
+            bk_create(pevent, dut_temp, TID_FLOAT, (void **)&pdata);
             *pdata++ = (float)data_stream[1];
             bk_close(pevent, pdata);
 
-            bk_create(pevent, PWM, TID_FLOAT, (void **)&pdata);
+            bk_create(pevent, air_temp, TID_FLOAT, (void **)&pdata);
             *pdata++ = (float)data_stream[2];
             bk_close(pevent, pdata);
 
-            bk_create(pevent, avgFlow, TID_FLOAT, (void **)&pdata);
+            bk_create(pevent, air_flow, TID_FLOAT, (void **)&pdata);
             *pdata++ = (float)data_stream[3];
             bk_close(pevent, pdata);
 
-            bk_create(pevent, setPoint, TID_FLOAT, (void **)&pdata);
+            bk_create(pevent, flow, TID_FLOAT, (void **)&pdata);
             *pdata++ = (float)data_stream[4];
             bk_close(pevent, pdata);
 
-            bk_create(pevent, relativeHumidity, TID_FLOAT, (void **)&pdata);
+            bk_create(pevent, avgFlow, TID_FLOAT, (void **)&pdata);
             *pdata++ = (float)data_stream[5];
             bk_close(pevent, pdata);
 
-            bk_create(pevent, ambientTemperature, TID_FLOAT, (void **)&pdata);
+            bk_create(pevent, setPoint, TID_FLOAT, (void **)&pdata);
             *pdata++ = (float)data_stream[6];
             bk_close(pevent, pdata);
 
-            // currently dont have power supply control working
-            /*
-            bk_create(pevent, "_V_", TID_FLOAT, (void **)&pdata);
+            bk_create(pevent, relativeHumidity, TID_FLOAT, (void **)&pdata);
             *pdata++ = (float)data_stream[7];
             bk_close(pevent, pdata);
 
-            bk_create(pevent, "_C_", TID_FLOAT, (void **)&pdata);
+            bk_create(pevent, ambientTemperature, TID_FLOAT, (void **)&pdata);
             *pdata++ = (float)data_stream[8];
             bk_close(pevent, pdata);
-            */
+
             
-            // Note the order of readout: T F P A S RH AT V C
+            // Note the order of readout: T D TA FA F A S RH AT 
         }
     }
     data_stream.clear();
