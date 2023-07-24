@@ -76,6 +76,7 @@ void setup() {
   // if thermal air left in remote mode after switching off
   // needs to be in local mode before re-entering remote mode
   // delays added as switching modes is not instantaneous 
+  Serial1.flush();
   send_command("%GL");
   delay(3000);
   send_command("%RM");
@@ -145,14 +146,17 @@ void loop() { //-----------------Main loop------------------//
       /// Read air flow rate from thermal air (litres/min)
       send_command("FLRL?");
       air_flow = read_output().toFloat();
+      delay(20);
 
       /// Read air temperature from thermal air
       send_command("TMPA?");
       air_temp = read_output().toFloat();
+      delay(20);
 
       /// Read DUT temp from thermocouple
       send_command("TMPD?");
       DUT_temp = read_output().toFloat();
+      delay(20);
 
       /// Read temperature in test stand
       temperature = thermo.temperature(RNOMINAL, RREF);
@@ -255,6 +259,7 @@ void loop() { //-----------------Main loop------------------//
       }
 
       if (command == 'r'){
+          Serial1.flush();
           send_command("%GL");
           delay(5000);
           send_command("%RM");
