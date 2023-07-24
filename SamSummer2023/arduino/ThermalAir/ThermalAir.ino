@@ -115,7 +115,7 @@ void setup() {
   //thermo.begin(MAX31865_4WIRE);  
 
 
-  // turning on thermal air DUT control mode and setting sensor type to T-type thermocouple
+  // turning on thermal air DUT control mode, setting sensor type to T-type thermocouple and turning on auto tune mode
   send_command("DSNS 4");
   send_command("DUTM 1");
   send_command("DUTN 1");
@@ -212,13 +212,13 @@ void loop() { //-----------------Main loop------------------//
           Serial.println(F("s: new (S)etpoint. followed by integer. e.g. s35 for 35 l/min"));
           Serial.println(F("r: (R)un - begin closed loop control - not implememted yet"));
           Serial.println(F("x: Break - stop closed loop control and turn off fan - not implememted yet"));
-          Serial.println(F("d: (D)isplay all measurements"));
-          Serial.println(F("f: display (F}low measurement"));
-          Serial.println(F("t: display (T)emperature measurement - not implememted yet"));
-          Serial.println(F("h: display (H)umidity measurement - not implememted yet"));
+          Serial.println(F("t: (T)ransmit all measurements"));
           Serial.println(F("b: (B)roadcast measurements"));
           Serial.println(F("n: (N)o broadcasting"));
           Serial.println(F("r: (r)eset remote mode on Thermal Air"));
+          Serial.println(F("c: Turn (c)ompressor on/off"));
+          Serial.println(F("f: Turn air (f)low on/off"));
+          Serial.println(F("d: Set Thermal Air to (D)UT mode"));
 
       }
 
@@ -248,16 +248,42 @@ void loop() { //-----------------Main loop------------------//
           broadcast_flag = false;
       }
 
-      if (command == 'd'){
+      if (command == 't'){
           transmit_data(); // output data via serial port
       }
 
+      // reset remote mode on thermal air
       if (command == 'r'){
           Serial1.flush();
           send_command("%GL");
           delay(5000);
           send_command("%RM");
           delay(5000);
+      }
+
+      // turn compressor on/off
+      if (command == 'c'){
+        send_command("COOL?");
+        float on = read_output().toFloat();
+
+        if (on == 0) send_command("COOL 1");
+        else if (on == 1) send_command("COOL 0");
+      }
+      
+      // turn air flow on/off
+      if (command == 'f'){
+        send_command("FLOW?");
+        float on = read_output().toFloat();
+        
+        if (on == 0) send_command("FLOW 1");
+        else if (on == 1) send_command("FLOW 0")
+      }    
+
+      // Set thermal air to DUT mode
+      if (command == 'd'){
+        send_command("DSNS 4");
+        send_command("DUTM 1");
+        send_command("DUTN 1");     
       }
 
 

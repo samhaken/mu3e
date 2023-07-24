@@ -56,21 +56,6 @@ inline double get_value1(char* buf, int buf_length, int& i, char M) {
     return buffer_t;
 }
 
-inline void set_machine_readable()
-{
-    std::ofstream ard("/dev/ttyACM0");
-    if (ard) ard << 'm' << '\r\n';
-    else std::cout << "Couldn't open serial port for writing\n";
-    return;
-}
-
-inline void set_setpoint(float value)
-{
-    std::ofstream ard("/dev/ttyACM0");
-    if (ard) ard << 's' << std::__cxx11::to_string(value) << '\r\n';
-    else std::cout << "Couldn't open serial port for writing\n";
-    return;
-}
 
 // Stores numerical values read from a buffer string inside a vector v.
 // - parameters
@@ -113,6 +98,59 @@ inline void strip_stringAd(char* read_buf, int buf_length, std::vector<double>& 
     }
     return;
 }
+
+
+// Set of all relevant arduino commands
+inline void set_machine_readable()
+{
+    std::ofstream ard("/dev/ttyACM0");
+    if (ard) ard << 'm' << '\r\n';
+    else std::cout << "Couldn't open serial port for writing\n";
+    return;
+}
+
+inline void set_setpoint(float value)
+{
+    std::ofstream ard("/dev/ttyACM0");
+    if (ard) ard << 's' << std::__cxx11::to_string(value) << '\r\n';
+    else std::cout << "Couldn't open serial port for writing\n";
+    return;
+}
+
+inline void reset_remote_connection()
+{
+    std::ofstream ard("/dev/ttyACM0");
+    if (ard) ard << 'r' << '\r\n';
+    else std::cout << "Couldn't open serial port for writing\n";
+    return;
+}
+
+inline void toggle_compressor()
+{
+    std::ofstream ard("/dev/ttyACM0");
+    if (ard) ard << 'c' << '\r\n';
+    else std::cout << "Couldn't open serial port for writing\n";
+    return;
+}
+
+inline void toggle_air_flow()
+{
+    std::ofstream ard("/dev/ttyACM0");
+    if (ard) ard << 'f' << '\r\n';
+    else std::cout << "Couldn't open serial port for writing\n";
+    return;
+}
+
+inline void set_DUT_mode()
+{
+    std::ofstream ard("/dev/ttyACM0");
+    if (ard) ard << 'd' << '\r\n';
+    else std::cout << "Couldn't open serial port for writing\n";
+    return;
+}
+
+
+
 
 //-- SETTING ARDUINO SERIAL PORT COMMUNICATION ------------------------------
 // - RDWR: write and read
