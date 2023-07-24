@@ -133,18 +133,6 @@ void setup() {
 
 
 void loop() { //-----------------Main loop------------------//
- 
-
-  // while (Serial.available() > 0)
-  // {
-  //   String command = Serial.readString();
-
-  //   send_command(command);
-  //   delay(1000);
-  //   String output = read_output();
-  //   Serial.print(command);
-  //   Serial.println(output);
-  // }
 
   unsigned long ms_curr = millis();
 
