@@ -222,11 +222,6 @@ void loop() { //-----------------Main loop------------------//
 
       }
 
-      if (command == 'f'){
-          //display_flow_volume(true);
-          transmit_data();
-      }
-
       if (command == 's'){
           Serial.print("New setpoint entered:");
           float setpoint_input = Serial.parseFloat();
@@ -235,7 +230,6 @@ void loop() { //-----------------Main loop------------------//
 
           String command = "SETP " + String(air_setpoint);
           send_command(command);
-
       }
 
       if (command == 'v'){
@@ -375,12 +369,6 @@ void transmit_data (void) {
         Serial.print("Flow Out: ");
         Serial.print(flow);
         Serial.print("\t");
-        //Serial.print("Volume: ");
-        //Serial.print(vol);
-        //Serial.print("\t");
-        // Serial.print("PWM Value: ");
-        // Serial.print(PWMValue);
-        // Serial.print("\t");
         Serial.print("Flow Avg: ");    
         Serial.print(flow_moving_avg);
         Serial.print("\t");
