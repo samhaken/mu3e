@@ -228,7 +228,7 @@ inline int serialport_read_until(int fd, char* buf, char until, int buf_max) {
 // serialport_read_until(serial_port, dump, '\n', sizeof(dump));
 int read_data1(int serial_port, std::vector<double>& v) {
     tcflush(serial_port, TCIOFLUSH);
-    char read_buf[51] = {};
+    char read_buf[64] = {};
     int err1 =
         serialport_read_until(serial_port, read_buf, '\n', sizeof(read_buf));
     int err2 = 0;
