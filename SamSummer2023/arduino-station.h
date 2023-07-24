@@ -56,6 +56,22 @@ inline double get_value1(char* buf, int buf_length, int& i, char M) {
     return buffer_t;
 }
 
+inline void set_machine_readable()
+{
+    std::ofstream ard("/dev/ttyACM0");
+    if (ard) ard << 'm' << '\r\n';
+    else std::cout << "Couldn't open serial port for writing\n";
+    return;
+}
+
+inline void set_setpoint(float value)
+{
+    std::ofstream ard("/dev/ttyACM0");
+    if (ard) ard << 's' << std::__cxx11::to_string(value) << '\r\n';
+    else std::cout << "Couldn't open serial port for writing\n";
+    return;
+}
+
 // Stores numerical values read from a buffer string inside a vector v.
 // - parameters
 //     - read_buf: array of mixed alphanumerical char transmitted by arduino.

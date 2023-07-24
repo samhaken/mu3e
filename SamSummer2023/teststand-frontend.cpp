@@ -45,7 +45,7 @@ INT max_event_size_frag = 5 * 1024 * 1024;
 INT event_buffer_size = 100 * 10000;
 
 //-- Function declarations -----------------------------------------
-void send_command_ard(float value, std::string command);
+// void send_command_ard(float value, std::string command);
 INT frontend_init(void);
 INT frontend_exit(void);
 INT begin_of_run(INT run_number, char *error);
@@ -92,13 +92,13 @@ EQUIPMENT equipment[] = {
 // send_command_ard()
 // - access the device file for arduino and send a command through tty
 // - e.g. s15, v12, c2.5
-void send_command_ard(float value, std::string command) {
-    command = command + std::__cxx11::to_string(value);
-    std::ofstream ard("/dev/ttyACM0");
-    if (ard) ard << command << '\n';
-    else std::cout << "Couldn't open serial port for writing\n";
-    return;
-}
+// void send_command_ard(float value, std::string command) {
+//     command = command + std::__cxx11::to_string(value);
+//     std::ofstream ard("/dev/ttyACM0");
+//     if (ard) ard << command << '\n';
+//     else std::cout << "Couldn't open serial port for writing\n";
+//     return;
+// }
 
 /********************************************************************\
               Callback routines for system transitions
@@ -162,7 +162,8 @@ INT frontend_init() {
     variables[ambientTemperature] = 0.0f;
     //variables["_L_"] = true;
 
-    send_command_ard(0.0, "m");
+    //send_command_ard(0.0, "m");
+    set_machine_readable();
 
     return SUCCESS;
 }
@@ -183,7 +184,8 @@ INT begin_of_run(INT run_number, char *error) {
     //Get setpoint from ODB and output in compact machine readable format
     midas::odb exp("/Equipment/ArduinoTestStation/Variables");
     //send_command_ard(exp["TS_S"], "s");
-    send_command_ard(0.0, "m");
+    //send_command_ard(0.0, "m");
+    set_machine_readable();
     
     return SUCCESS; 
     
@@ -327,7 +329,8 @@ INT read_periodic_event(char *pevent, INT off) {
 void ts_variables_changed(midas::odb&)
 {
     midas::odb setpoint("/Equipment/ArduinoTestStation/Variables/TS_S");
-    send_command_ard(setpoint, "s");
+    //send_command_ard(setpoint, "s");
+    set_setpoint(setpoint);
     return;
 }
 
