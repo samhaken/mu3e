@@ -156,10 +156,12 @@ INT frontend_init() {
 
     midas::odb variables("/Equipment/ArduinoTestStation/Variables");
     variables[temperature] = 0.0f;
+    variables[dut_temp] = 0.0f;
+    variables[air_temp] = 0.0f;
+    variables[air_flow] = 0.0f;
     variables[flow] = 0.0f;
-    variables[PWM] = 110.0f;
     variables[avgFlow] = 0.0f;
-    variables[setPoint] = 30.0f;
+    variables[setPoint] = 20.0f;
     variables[relativeHumidity] = 0.0f;
     variables[ambientTemperature] = 0.0f;
     //variables["_L_"] = true;
