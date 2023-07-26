@@ -1,7 +1,7 @@
 /********************************************************************\
 
   Name:         teststand-frontend.cpp
-  Created by:   Midas template adapted by Bristol students and A. Loreti
+  Created by:   Midas template adapted by Bristol students, A. Loreti and S. Haken
   Contents:     Slow control Bristol
 
 \********************************************************************/

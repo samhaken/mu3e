@@ -1,5 +1,13 @@
-// author: A. Loreti phys2114.ox.ac.uk ok20686@bristol.ac.uk
-// date: May-June 2021
+
+/***************************************************************************************************\
+
+Name: arduino-station.h
+Author: A. Loreti phys2114.ox.ac.uk ok20686@bristol.ac.uk, Modified by S. Haken ji20840@bristol.ac.uk
+Date: July 2023
+Description: Header file for the arduino test stand frontend
+
+\***************************************************************************************************/
+
 
 // list of references
 // - https://www.cmrr.umn.edu/~strupp/serial.html#3_1

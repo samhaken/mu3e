@@ -1,4 +1,13 @@
 
+/***************************************************************************************************\
+
+Name: ThermalAirSimpleControl.ino
+Author: S. Haken ji20840@bristol.ac.uk
+Date: July 2023
+Description: Arduino code for directly controlling the Thermal Air via serial connection
+
+\***************************************************************************************************/
+
 void setup() {
   // put your setup code here, to run once:
 

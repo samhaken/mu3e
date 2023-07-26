@@ -1,5 +1,5 @@
-''' Author: A. Loreti ok20686@bris.ac.uk  phys2114@ox.ac.uk
-    Date: Feb 2021
+''' Author: A. Loreti ok20686@bris.ac.uk  phys2114@ox.ac.uk, Modified by S. Haken ji20840@bristol.ac.uk
+    Date: July 2023
     Abstract: read mid files into numpy arrays
 '''
 

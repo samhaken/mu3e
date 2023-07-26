@@ -1,3 +1,14 @@
+
+/***************************************************************************************************\
+
+Name: ThermalAir.ino
+Author: A. Loreti phys2114.ox.ac.uk ok20686@bristol.ac.uk, Modified by S. Haken ji20840@bristol.ac.uk
+Date: July 2023
+Description: Arduino code for interfacing with test stand
+
+\***************************************************************************************************/
+
+
 #include <Wire.h>
 #include <Adafruit_MAX31865.h> //from MAX31865 library from Adafruit
 #include <HIH61xx.h>
@@ -276,7 +287,7 @@ void loop() { //-----------------Main loop------------------//
         float on = read_output().toFloat();
         
         if (on == 0) send_command("FLOW 1");
-        else if (on == 1) send_command("FLOW 0")
+        else if (on == 1) send_command("FLOW 0");
       }    
 
       // Set thermal air to DUT mode
