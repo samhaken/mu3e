@@ -145,7 +145,7 @@ INT frontend_init() {
     // unsigned char data[] = "r";
     // write_data(serial_port, data, sizeof(data));
 
-    setup_watches();
+    //setup_watches();
 
     if (!portOpen){
         std::terminate();
@@ -168,6 +168,8 @@ INT frontend_init() {
 
     //send_command_ard(0.0, "m");
     set_machine_readable();
+
+    reset_remote_connection();
 
     return SUCCESS;
 }
@@ -314,6 +316,9 @@ INT read_periodic_event(char *pevent, INT off) {
 }
 
 /*--- Called whenever variables have changed ------*/
+
+/// this is temperamental, works when FE is idle but causes issues if changed during a run
+/// to enable the watches, uncomment setup_watches() in frontend_init()
 void ts_variables_changed(midas::odb&)
 {
     midas::odb setpoint("/Equipment/ArduinoTestStation/Variables/TS_S");

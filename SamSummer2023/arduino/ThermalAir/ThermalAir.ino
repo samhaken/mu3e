@@ -234,9 +234,9 @@ void loop() { //-----------------Main loop------------------//
       }
 
       if (command == 's'){
-          Serial.print("New setpoint entered:");
+          //Serial.print("New setpoint entered:");
           float setpoint_input = Serial.parseFloat();
-          Serial.println(setpoint_input);
+          //Serial.println(setpoint_input);
           air_setpoint = constrain(setpoint_input, 0, 1000);
 
           String command = "SETP " + String(air_setpoint);

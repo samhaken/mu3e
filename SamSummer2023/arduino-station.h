@@ -120,7 +120,13 @@ inline void set_machine_readable()
 inline void set_setpoint(float value)
 {
     std::ofstream ard("/dev/ttyACM0");
-    if (ard) ard << 's' << std::__cxx11::to_string(value) << '\r\n';
+
+    std::string command = 's' + std::__cxx11::to_string(value);
+    command.erase(command.find_last_not_of('0') + 1, std::string::npos);
+
+    std::cout << command << std::endl;
+
+    if (ard) ard << command << '\r\n';
     else std::cout << "Couldn't open serial port for writing\n";
     return;
 }
