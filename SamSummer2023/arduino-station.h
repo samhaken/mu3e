@@ -83,7 +83,7 @@ inline void strip_stringAd(char* read_buf, int buf_length, std::vector<double>& 
                v_7 = get_value1(read_buf, buf_length, i, 'A'),
                v_8 = get_value1(read_buf, buf_length, i, 'N');
 
-               // T D TA FA F A S RH AT 
+               // Order of data buffer: T D TA FA F A S RH AT
 
         v.push_back(v_0);
         v.push_back(v_1);
@@ -108,7 +108,10 @@ inline void strip_stringAd(char* read_buf, int buf_length, std::vector<double>& 
 }
 
 
-// Set of all relevant arduino commands
+// Set of all relevant arduino commands to be called
+// in the front end to communicate with the arduino
+// See arduino firmware (ThermalAir.ino) to view/add commands as needed
+
 inline void set_machine_readable()
 {
     std::ofstream ard("/dev/ttyACM0");
@@ -121,10 +124,9 @@ inline void set_setpoint(float value)
 {
     std::ofstream ard("/dev/ttyACM0");
 
+    //remove trailing zeros from string
     std::string command = 's' + std::__cxx11::to_string(value);
     command.erase(command.find_last_not_of('0') + 1, std::string::npos);
-
-    std::cout << command << std::endl;
 
     if (ard) ard << command << '\r\n';
     else std::cout << "Couldn't open serial port for writing\n";

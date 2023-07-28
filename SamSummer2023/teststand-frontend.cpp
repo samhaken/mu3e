@@ -131,8 +131,6 @@ EQUIPMENT equipment[] = {
         const char *ambientTemperature = "TSAT";
 
 INT frontend_init() {
-    // unsigned char data[] = "r";
-    // write_data(serial_port, data, sizeof(data));
 
     //setup_watches();
 
@@ -153,7 +151,6 @@ INT frontend_init() {
     variables[setPoint] = 20.0f;
     variables[relativeHumidity] = 0.0f;
     variables[ambientTemperature] = 0.0f;
-    //variables["_L_"] = true;
 
     set_machine_readable();
 
@@ -177,6 +174,7 @@ INT begin_of_run(INT run_number, char *error) {
 
     //Get setpoint from ODB and output in compact machine readable format
     midas::odb exp("/Equipment/ArduinoTestStation/Variables");
+    setpoint = exp["TS_S"];
 
     set_machine_readable();
 

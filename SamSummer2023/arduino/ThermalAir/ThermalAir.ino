@@ -86,7 +86,7 @@ void setup() {
   /// Enter remote mode on thermal air
   // if thermal air left in remote mode after switching off
   // needs to be in local mode before re-entering remote mode
-  // delays added as switching modes is not instantaneous 
+  // delays added as switching modes is not instantaneous
   Serial1.flush();
   send_command("%GL");
   delay(3000);
@@ -123,7 +123,7 @@ void setup() {
   //setup for the MAX31865 temperature sensor
   thermo.begin(MAX31865_2WIRE);  // set to 2,3or4WIRE as necessary
   //thermo.begin(MAX31865_3WIRE);
-  //thermo.begin(MAX31865_4WIRE);  
+  //thermo.begin(MAX31865_4WIRE);
 
 
   // turning on thermal air DUT control mode, setting sensor type to T-type thermocouple and turning on auto tune mode
@@ -138,22 +138,22 @@ void setup() {
   send_command("SETN 0");
   send_command("SETP 20");
   air_setpoint = 20.0;
-    
+
 }
 
 
 
 
 void loop() { //-----------------Main loop------------------//
- 
+
   unsigned long ms_curr = millis();
 
   if (ms_curr - ms_display >= mms) { // "soft interrupt" every mms milliseconds
       ms_display = ms_curr;
 
       //read from the flowmeter
-      SFM_measure();  
-      
+      SFM_measure();
+
       /// Read air flow rate from thermal air (litres/min)
       send_command("FLRL?");
       air_flow = read_output().toFloat();
@@ -171,7 +171,7 @@ void loop() { //-----------------Main loop------------------//
 
       /// Read temperature in test stand
       temperature = thermo.temperature(RNOMINAL, RREF);
-      
+
 
 
 
@@ -188,7 +188,7 @@ void loop() { //-----------------Main loop------------------//
           // Print saved values
           rel_humidity = hih.getRelHumidity() / 100.0;
           amb_temp = hih.getAmbientTemp() / 100.0;
-      } 
+      }
 
 
       flow_values[flow_array_index]=flow;  //record the current flow value in the array
@@ -197,7 +197,7 @@ void loop() { //-----------------Main loop------------------//
           flow_array_index = 0;
       }
 
-      //calculate moving windowed average 
+      //calculate moving windowed average
       flow_moving_avg = 0;
       for (i=0; i<10; i++){
           flow_moving_avg += flow_values[i];
@@ -205,12 +205,15 @@ void loop() { //-----------------Main loop------------------//
       flow_moving_avg /= 10;
 
 
-      if (broadcast_flag){  
+      if (broadcast_flag){
           transmit_data(); // output data via serial port
       }
 
   } // end measurement cycle
 
+
+  // checking for serial input
+  // add any commands to used by the midas front end here
   while (Serial.available() > 0) {
       char command;
       command = Serial.read();
@@ -280,21 +283,21 @@ void loop() { //-----------------Main loop------------------//
         if (on == 0) send_command("COOL 1");
         else if (on == 1) send_command("COOL 0");
       }
-      
+
       // turn air flow on/off
       if (command == 'f'){
         send_command("FLOW?");
         float on = read_output().toFloat();
-        
+
         if (on == 0) send_command("FLOW 1");
         else if (on == 1) send_command("FLOW 0");
-      }    
+      }
 
       // Set thermal air to DUT mode
       if (command == 'd'){
         send_command("DSNS 4");
         send_command("DUTM 1");
-        send_command("DUTN 1");     
+        send_command("DUTN 1");
       }
 
 
@@ -406,7 +409,7 @@ void transmit_data (void) {
         Serial.print("Flow Out: ");
         Serial.print(flow);
         Serial.print("\t");
-        Serial.print("Flow Avg: ");    
+        Serial.print("Flow Avg: ");
         Serial.print(flow_moving_avg);
         Serial.print("\t");
         Serial.print("Setpoint: ");
@@ -428,7 +431,7 @@ void transmit_data (void) {
 
     else{
 
-        // T D TA FA F A S RH AT 
+        // T D TA FA F A S RH AT
 
         Serial.print("T");
         Serial.print(temperature);
@@ -445,7 +448,7 @@ void transmit_data (void) {
         Serial.print("F");
         Serial.print(flow);
 
-        Serial.print("A");    
+        Serial.print("A");
         Serial.print(flow_moving_avg);
 
         Serial.print("S");
